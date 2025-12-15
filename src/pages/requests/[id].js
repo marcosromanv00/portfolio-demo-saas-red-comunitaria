@@ -1,129 +1,110 @@
-/**
- * Página: /requests/[id]
- * Muestra y edita una solicitud individual usando el ID de la URL
- */
+// pages/requests/[id].js
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "@/supabaseClient";
 
-export default function RequestDetail() {
+export default function RequestDetails() {
   const router = useRouter();
 
-  // Obtenemos el ID desde la URL: /requests/123
+  // Obtenemos el ID de la URL
   const { id } = router.query;
 
-  // Estados del componente
+  // Estado para almacenar el registro seleccionado
   const [request, setRequest] = useState(null);
+
+  // Estado de carga para evitar errores cuando todavía no hay datos
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
+
+  // Estado por si ocurre un error
+  const [error, setError] = useState(null);
 
   /**
-   * Cargar datos desde Supabase cuando el componente ya tiene el ID disponible
+   * Función que obtiene un registro específico según su ID.
+   * Se ejecuta solo cuando `id` exista (Next.js primero hace render sin parámetros).
    */
-  useEffect(() => {
-    if (!id) return; // Evita ejecutar antes de que Next.js envíe el ID
+  const fetchRequest = async () => {
+    try {
+      setLoading(true);
 
-    const fetchRequest = async () => {
+      // Realizamos query a Supabase para obtener un único registro
       const { data, error } = await supabase
         .from("community_requests")
         .select("*")
         .eq("id", id)
-        .single(); // Garantiza un solo registro
+        .single(); // Hace que devuelva un solo objeto
 
-      if (error) {
-        setMessage("No se encontró la solicitud.");
-      } else {
-        setRequest(data);
-      }
+      if (error) throw error;
 
+      // Guardamos la data en estado
+      setRequest(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      // Quitamos loading siempre
       setLoading(false);
-    };
-
-    fetchRequest();
-  }, [id]);
-
-  /**
-   * Guardar los cambios del formulario en la base de datos
-   */
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-
-    const { error } = await supabase
-      .from("community_requests")
-      .update({
-        name: request.name,
-        description: request.description,
-        category: request.category,
-        location: request.location,
-      })
-      .eq("id", id);
-
-    if (error) {
-      setMessage("❌ Error actualizando: " + error.message);
-    } else {
-      setMessage("✅ Solicitud actualizada correctamente.");
     }
   };
 
-  // Mientras todavía carga info
-  if (loading) return <p style={{ padding: "20px" }}>Cargando...</p>;
+  // Ejecutamos fetchRequest solo cuando `id` esté disponible
+  useEffect(() => {
+    if (id) fetchRequest();
+  }, [id]);
 
-  // Si no existe el registro
-  if (!request) return <p style={{ padding: "20px" }}>No se encontró la solicitud.</p>;
+  // Mientras carga, prevenimos que renderice "request.category"
+  if (loading) {
+    return <p>Cargando solicitud...</p>;
+  }
+
+  // Si ocurrió un error al cargar
+  if (error) {
+    return <p>Error al cargar la solicitud: {error}</p>;
+  }
+
+  // Si request es null (por ejemplo, ID malo)
+  if (!request) {
+    return <p>No se encontró la solicitud.</p>;
+  }
+
+  /**
+   * Eliminación del registro actual
+   */
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from("community_requests")
+      .delete()
+      .eq("id", id);
+
+    if (!error) {
+      alert("Solicitud eliminada");
+      router.push("/requests");
+    } else {
+      alert("Error al eliminar: " + error.message);
+    }
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Editar solicitud</h1>
+    <div>
+      <h1>Detalle de Solicitud</h1>
 
-      <form
-        onSubmit={handleUpdate}
-        style={{
-          maxWidth: "400px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-          marginTop: "20px",
-        }}
-      >
-        <label>Nombre</label>
-        <input
-          value={request.name}
-          onChange={(e) => setRequest({ ...request, name: e.target.value })}
-        />
+      {/* Ahora request SIEMPRE existe antes de llegar aquí,
+          así evitamos el error "Cannot read properties of null" */}
+      <p><strong>Nombre:</strong> {request.name}</p>
+      <p><strong>Descripción:</strong> {request.description}</p>
+      <p><strong>Categoría:</strong> {request.category}</p>
+      <p><strong>Ubicación:</strong> {request.location}</p>
+      <p><strong>Estado:</strong> {request.status}</p>
+      <p><strong>Fecha:</strong> {new Date(request.created_at).toLocaleString()}</p>
 
-        <label>Descripción</label>
-        <textarea
-          value={request.description}
-          onChange={(e) =>
-            setRequest({ ...request, description: e.target.value })
-          }
-        />
+      <br/>
 
-        <label>Categoría</label>
-        <input
-          value={request.category}
-          onChange={(e) => setRequest({ ...request, category: e.target.value })}
-        />
+      {/* Navegar al formulario de edición */}
+      <button onClick={() => router.push(`/requests/${id}/edit`)}>
+        Editar
+      </button>
 
-        <label>Ubicación</label>
-        <input
-          value={request.location}
-          onChange={(e) => setRequest({ ...request, location: e.target.value })}
-        />
-
-        <button type="submit" style={{ marginTop: "10px" }}>
-          Guardar cambios
-        </button>
-      </form>
-
-      {message && <p style={{ marginTop: "15px" }}>{message}</p>}
-
-      <button
-        style={{ marginTop: "20px" }}
-        onClick={() => router.push("/requests")}
-      >
-        Volver
+      <button onClick={handleDelete} style={{ marginLeft: "10px", color: "red" }}>
+        Eliminar
       </button>
     </div>
   );

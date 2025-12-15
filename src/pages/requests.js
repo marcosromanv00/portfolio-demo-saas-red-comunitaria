@@ -139,7 +139,7 @@ export default function Requests() {
 
                             {/* Editar */}
                             <Link
-                                href={`/requests/${req.id}/edit`}
+                                href={`/requests/${req.id}`}
                                 className="text-green-600 hover:underline"
                             >
                                 Editar
