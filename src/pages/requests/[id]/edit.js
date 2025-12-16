@@ -16,6 +16,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabaseClient";
+import MainLayout from "@/components/layout/MainLayout";
 
 export default function EditRequestPage() {
   const router = useRouter();
@@ -126,90 +127,114 @@ export default function EditRequestPage() {
         No existe esta solicitud.
       </p>
     );
-  }
+  };
 
   /* ---------- UI ---------- */
 
   return (
-    <main className="flex justify-center px-4 py-12">
-      <section className="w-full max-w-xl rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-zinc-900 shadow-lg p-8">
-        <h1 className="text-2xl font-semibold mb-6">
-          Editar solicitud
-        </h1>
+    <MainLayout>
+      <div className="min-vdh-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-3xl">
+          <div
+            className="rounded-xl border p-6 md:p-8 shadow-sm"
+            style={{
+              backgroundColor: "var(--surface)",
+              borderColor: "var(--border)",
+            }}
+          >
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold">
+                Editar solicitud
+              </h1>
+              <p className="text-sm opacity-70 mt-1">
+                Actualiza el registro de la solicitud comunitaria
+              </p>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Nombre */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Nombre</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                  style={{ borderColor: "var(--border)" }}
+                />
+              </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Nombre */}
-          <div>
-            <label className="block font-medium mb-1">Nombre</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
+              {/* Descripción */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Descripción
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  required
+                  rows={4}
+                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                  style={{ borderColor: "var(--border)" }}
+                />
+              </div>
+
+              {/* Categoría */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Categoría
+                </label>
+                <input
+                  type="text"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                  style={{ borderColor: "var(--border)" }}
+                />
+              </div>
+
+              {/* Ubicación */}
+              <div>
+                <label className="block text-sm font-medium mb-1">
+                  Ubicación
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                  style={{ borderColor: "var(--border)" }}
+                />
+              </div>
+
+              {/* Acciones */}
+              <div className="flex justify-end gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => router.back()}
+                  className="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60 transition"
+                >
+                  {saving ? "Guardando…" : "Guardar cambios"}
+                </button>
+              </div>
+            </form>
           </div>
-
-          {/* Descripción */}
-          <div>
-            <label className="block font-medium mb-1">Descripción</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              rows={4}
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Categoría */}
-          <div>
-            <label className="block font-medium mb-1">Categoría</label>
-            <input
-              type="text"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Ubicación */}
-          <div>
-            <label className="block font-medium mb-1">Ubicación</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-gray-300 dark:border-gray-600 px-3 py-2 bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-          </div>
-
-          {/* Acciones */}
-          <div className="flex justify-end gap-4 pt-4">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-            >
-              Cancelar
-            </button>
-
-            <button
-              type="submit"
-              disabled={saving}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60 transition"
-            >
-              {saving ? "Guardando…" : "Guardar cambios"}
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
+        </div>
+      </div>
+    </MainLayout>
   );
 }

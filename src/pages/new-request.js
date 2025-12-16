@@ -1,193 +1,156 @@
 // src/pages/new-request.js
 
-// React
 import { useState } from "react";
-// Next.js router
 import { useRouter } from "next/router";
-// Supabase client
 import { supabase } from "../supabaseClient";
+import MainLayout from "../components/layout/MainLayout";
 
-/**
- * Página: Crear nueva solicitud
- * Diseño optimizado para claridad, accesibilidad y coherencia visual
- */
 export default function NewRequest() {
-  // --- Estados del formulario ---
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [location, setLocation] = useState("");
 
-  // --- Estados UX ---
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
   const router = useRouter();
 
-  /**
-   * Manejo del submit del formulario
-   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(null);
     setError(null);
 
-    if (
-      !name.trim() ||
-      !description.trim() ||
-      !category.trim() ||
-      !location.trim()
-    ) {
+    if (!name || !description || !category || !location) {
       setError("Por favor completa todos los campos.");
       return;
     }
 
     setLoading(true);
 
-    try {
-      const { error: sbError } = await supabase
-        .from("community_requests")
-        .insert([
-          {
-            name: name.trim(),
-            description: description.trim(),
-            category: category.trim(),
-            location: location.trim(),
-          },
-        ]);
+    const { error: sbError } = await supabase
+      .from("community_requests")
+      .insert([{ name, description, category, location }]);
 
-      if (sbError) {
-        setError("No se pudo crear la solicitud.");
-        setLoading(false);
-        return;
-      }
-
-      setMessage("Solicitud creada correctamente ✨");
+    if (sbError) {
+      setError("No se pudo crear la solicitud.");
       setLoading(false);
-
-      setTimeout(() => {
-        router.push("/requests");
-      }, 900);
-    } catch (err) {
-      setError("Ocurrió un error inesperado.");
-      setLoading(false);
+      return;
     }
+
+    setMessage("Solicitud creada correctamente ✨");
+    setLoading(false);
+
+    setTimeout(() => router.push("/requests"), 900);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-3xl">
-        {/* Card */}
-        <div className="rounded-xl border bg-background shadow-sm p-6 md:p-8">
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold">
-              Crear nueva solicitud
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Registra una necesidad o solicitud comunitaria
-            </p>
+    <MainLayout>
+      <div className="min-vdh-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-3xl">
+
+          {/* Card */}
+          <div
+            className="rounded-xl border p-6 md:p-8 shadow-sm"
+            style={{
+              backgroundColor: "var(--surface)",
+              borderColor: "var(--border)",
+            }}
+          >
+            {/* Header */}
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold">
+                Crear nueva solicitud
+              </h1>
+              <p className="text-sm opacity-70 mt-1">
+                Registra una necesidad o solicitud comunitaria
+              </p>
+            </div>
+
+            {/* Mensajes */}
+            {error && (
+              <div
+                className="mb-4 rounded-md border px-4 py-2 text-sm"
+                style={{
+                  backgroundColor: "color-mix(in srgb, var(--danger) 15%, transparent)",
+                  borderColor: "var(--danger)",
+                  color: "var(--danger)",
+                }}
+              >
+                ❌ {error}
+              </div>
+            )}
+
+            {message && (
+              <div
+                className="mb-4 rounded-md border px-4 py-2 text-sm"
+                style={{
+                  backgroundColor: "color-mix(in srgb, var(--success) 15%, transparent)",
+                  borderColor: "var(--success)",
+                  color: "var(--success)",
+                }}
+              >
+                ✅ {message}
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {[
+                ["Nombre", name, setName, "Ej: Asociación Amigos de Alajuela"],
+                ["Descripción", description, setDescription, "Describe la necesidad", true],
+                ["Categoría", category, setCategory, "Salud, Educación…"],
+                ["Ubicación", location, setLocation, "Alajuela Centro"],
+              ].map(([label, value, setter, placeholder, textarea], i) => (
+                <div key={i}>
+                  <label className="block text-sm font-medium mb-1">
+                    {label}
+                  </label>
+                  {textarea ? (
+                    <textarea
+                      value={value}
+                      onChange={(e) => setter(e.target.value)}
+                      rows={4}
+                      placeholder={placeholder}
+                      className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                      style={{ borderColor: "var(--border)" }}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => setter(e.target.value)}
+                      placeholder={placeholder}
+                      className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
+                      style={{ borderColor: "var(--border)" }}
+                    />
+                  )}
+                </div>
+              ))}
+
+              {/* Actions */}
+              <div className="flex justify-end gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => router.back()}
+                  className="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
+                >
+                  Cancelar
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60 transition"
+                >
+                  {loading ? "Guardando..." : "Crear solicitud"}
+                </button>
+              </div>
+            </form>
           </div>
-
-          {/* Mensajes */}
-          {error && (
-            <div className="mb-4 rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm text-red-700 dark:bg-red-900/20 dark:border-red-800">
-              ❌ {error}
-            </div>
-          )}
-
-          {message && (
-            <div className="mb-4 rounded-md border border-green-300 bg-green-50 px-4 py-2 text-sm text-green-700 dark:bg-green-900/20 dark:border-green-800">
-              ✅ {message}
-            </div>
-          )}
-
-          {/* Formulario */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Nombre */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Nombre
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Ej: Asociación Amigos de Alajuela"
-                className="w-full rounded-lg border bg-transparent px-3 py-2 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Descripción */}
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Descripción
-              </label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={4}
-                placeholder="Describe la necesidad, beneficiarios y contexto"
-                className="w-full rounded-lg border bg-transparent px-3 py-2 text-sm
-                           focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Grid: Categoría + Ubicación */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Categoría
-                </label>
-                <input
-                  type="text"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  placeholder="Ayuda Social, Salud, Educación..."
-                  className="w-full rounded-lg border bg-transparent px-3 py-2 text-sm
-                             focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Ubicación
-                </label>
-                <input
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="Alajuela Centro"
-                  className="w-full rounded-lg border bg-transparent px-3 py-2 text-sm
-                             focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* Acciones */}
-            <div className="flex items-center justify-between pt-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-2.5
-                           text-sm font-medium text-white hover:bg-blue-700
-                           disabled:opacity-60"
-              >
-                {loading ? "Guardando..." : "Crear solicitud"}
-              </button>
-
-              <a
-                href="/requests"
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Cancelar
-              </a>
-            </div>
-          </form>
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }
