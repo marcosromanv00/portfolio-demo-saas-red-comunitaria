@@ -12,6 +12,12 @@
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --header: #ffffff;
+  --badge-bg: rgba(0, 0, 0, 0.05);
+  --badge-text: #111827;
+  --badge-radius: 9999px;
+  --badge-font-size: 0.75rem;
+  --badge-padding-x: 0.75rem;
+  --badge-padding-y: 0.25rem;
 }
 
 /* ======================================================
@@ -26,6 +32,8 @@
   --primary: #60a5fa;
   --primary-hover: #3b82f6;
   --header: #020617;
+  --badge-bg: rgba(255, 255, 255, 0.1);
+  --badge-text: #e5e7eb;
 }
 
 /* ======================================================
@@ -109,4 +117,26 @@ body {
 
 .theme-toggle:hover {
   transform: scale(1.1);
+}
+
+/* ================================
+   BADGES
+================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+
+  font-size: var(--badge-font-size);
+  font-weight: 500;
+
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+
+  line-height: 1;
+  white-space: nowrap;
 }
