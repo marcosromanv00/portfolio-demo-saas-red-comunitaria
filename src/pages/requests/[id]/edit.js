@@ -1,21 +1,6 @@
-/**
- * Página: /requests/[id]/edit
- *
- * Responsabilidad única:
- * - Cargar una solicitud por ID
- * - Permitir editarla
- * - Guardar cambios en Supabase
- *
- * Principios aplicados:
- * - SRP (Single Responsibility)
- * - UI desacoplada de acceso a datos
- * - Manejo explícito de loading, error y saving
- * - Tailwind como fuente única de estilos
- */
-
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/supabaseClient";
+import { RequestsService } from "@/services/requests.service";
 import MainLayout from "@/components/layout/MainLayout";
 
 export default function EditRequestPage() {
@@ -43,11 +28,7 @@ export default function EditRequestPage() {
       try {
         setLoading(true);
 
-        const { data, error } = await supabase
-          .from("community_requests")
-          .select("*")
-          .eq("id", id)
-          .single();
+        const { data, error } = await RequestsService.getById(id);
 
         if (error) throw error;
 
@@ -83,15 +64,12 @@ export default function EditRequestPage() {
     e.preventDefault();
     setSaving(true);
 
-    const { error } = await supabase
-      .from("community_requests")
-      .update({
-        name: formData.name,
-        description: formData.description,
-        category: formData.category,
-        location: formData.location,
-      })
-      .eq("id", id);
+    const { error } = await RequestsService.update(id, {
+      name: formData.name,
+      description: formData.description,
+      category: formData.category,
+      location: formData.location,
+    });
 
     setSaving(false);
 

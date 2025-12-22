@@ -1,9 +1,9 @@
 // src/pages/requests.js
 
 import { useEffect, useState } from "react";
-import { supabase } from "../supabaseClient";
 import Link from "next/link";
 import MainLayout from "../components/layout/MainLayout";
+import { RequestsService } from "../services/requests.service";
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
@@ -14,10 +14,7 @@ export default function Requests() {
     setLoading(true);
     setError(null);
 
-    const { data, error } = await supabase
-      .from("community_requests")
-      .select("*")
-      .order("created_at", { ascending: false });
+    const { data, error } = await RequestsService.getAll();
 
     if (error) {
       setError("No se pudo cargar la lista de solicitudes.");
@@ -40,10 +37,7 @@ export default function Requests() {
 
     if (!confirmDelete) return;
 
-    const { error } = await supabase
-      .from("community_requests")
-      .delete()
-      .eq("id", id);
+    const { error } = await RequestsService.remove(id);
 
     if (!error) {
       fetchRequests();

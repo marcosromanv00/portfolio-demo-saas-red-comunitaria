@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "../supabaseClient";
 import MainLayout from "../components/layout/MainLayout";
+import { RequestsService } from "@/services/requests.service";
 
 export default function NewRequest() {
   const [name, setName] = useState("");
@@ -29,9 +29,12 @@ export default function NewRequest() {
 
     setLoading(true);
 
-    const { error: sbError } = await supabase
-      .from("community_requests")
-      .insert([{ name, description, category, location }]);
+    const { error: sbError } = await RequestsService.create({
+      name,
+      description,
+      category,
+      location
+    });
 
     if (sbError) {
       setError("No se pudo crear la solicitud.");

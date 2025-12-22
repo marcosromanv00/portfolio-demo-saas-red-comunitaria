@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/supabaseClient";
-import { Main } from "next/document";
 import MainLayout from "@/components/layout/MainLayout";
+import { RequestsService } from "@/services/requests.service";
 
 export default function RequestDetails() {
   const router = useRouter();
@@ -20,11 +19,7 @@ export default function RequestDetails() {
     try {
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from("community_requests")
-        .select("*")
-        .eq("id", id)
-        .single();
+      const { data, error } = await RequestsService.getById(id);
 
       if (error) throw error;
 
