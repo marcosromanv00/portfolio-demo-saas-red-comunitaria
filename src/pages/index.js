@@ -5,7 +5,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <MainLayout>
-      <section className="text-center space-y-6">
+      <section className="flex flex-col items-center justify-center text-center space-y-6 px-4">
+
         <h1 className="text-3xl font-bold">
           Plataforma de Solicitudes Comunitarias
         </h1>

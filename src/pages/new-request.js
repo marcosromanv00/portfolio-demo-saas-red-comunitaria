@@ -50,7 +50,7 @@ export default function NewRequest() {
 
   return (
     <MainLayout>
-      <div className="min-vdh-screen flex items-center justify-center px-4">
+      <div className="flex items-center justify-center w-full px-4">
         <div className="w-full max-w-3xl">
 
           {/* Card */}
