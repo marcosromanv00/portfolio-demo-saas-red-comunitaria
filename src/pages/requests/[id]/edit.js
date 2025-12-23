@@ -111,7 +111,7 @@ export default function EditRequestPage() {
 
   return (
     <MainLayout>
-      <div className="min-vdh-screen flex items-center justify-center px-4">
+      <div className="min-vdh-screen flex items-center justify-center w-full px-4">
         <div className="w-full max-w-3xl">
           <div
             className="rounded-xl border p-6 md:p-8 shadow-sm"
