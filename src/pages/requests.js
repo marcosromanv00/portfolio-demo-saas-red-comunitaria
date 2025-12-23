@@ -4,6 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import MainLayout from "../components/layout/MainLayout";
 import { RequestsService } from "../services/requests.service";
+import {
+  ACTION_GROUP,
+  ACTION_BUTTON,
+  ACTION_BUTTON_DANGER,
+} from "@/components/ui/actionStyles";
+import { EyeIcon } from "@/components/icons/EyeIcon";
+import { EditIcon } from "@/components/icons/EditIcon";
+import { TrashIcon } from "@/components/icons/TrashIcon";
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
@@ -46,9 +54,9 @@ export default function Requests() {
 
   return (
     <MainLayout>
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4">
         {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
           <div>
             <h1 className="text-3xl font-bold">
               Solicitudes comunitarias
@@ -60,11 +68,7 @@ export default function Requests() {
 
           <Link
             href="/new-request"
-            className="inline-flex items-center justify-center
-              rounded-lg px-4 py-2 text-sm font-medium
-              bg-blue-600 text-white hover:bg-blue-700
-              focus:outline-none focus:ring-2 focus:ring-blue-400
-              transition"
+            className="btn-new-request"
           >
             + Nueva solicitud
           </Link>
@@ -90,12 +94,11 @@ export default function Requests() {
         )}
 
         {/* GRID */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {requests.map((req) => (
             <article
               key={req.id}
-              className="
-                flex flex-col justify-between rounded-xl p-5 shadow-sm hover:shadow-md transition
+              className=" group flex flex-col justify-between rounded-xl p-5 shadow-sm hover:shadow-md transition
               "
               style={{
                 backgroundColor: "var(--surface)",
@@ -113,7 +116,7 @@ export default function Requests() {
                 </p>
 
                 {/* META */}
-                <div className="mt-4 flex flex-col gap-2">
+                <div className="mt-3 flex flex-col items gap-2 opacity-80">
                   <span className="badge">
                     🏷️ {req.category}
                   </span>
@@ -127,7 +130,29 @@ export default function Requests() {
               </div>
 
               {/* ACTIONS */}
-              <div className="mt-6 flex items-center justify-between border-t pt-4 text-sm">
+              <div className="-mt-4 flex justify-end-safe text-sm">
+
+                <div className={ACTION_GROUP}>
+                  <Link
+                    href={`/requests/${req.id}`}
+                    className={ACTION_BUTTON + " rounded-l-sm"}>
+                    <EyeIcon className="size-5" />
+                  </Link>
+
+                  <Link
+                    href={`/requests/${req.id}/edit`}
+                    className={ACTION_BUTTON + " border-x border-gray-200"}>
+                    <EditIcon className="size-5" />
+                  </Link>
+
+                  <button
+                    onClick={() => deleteRequest(req.id)}
+                    className={ACTION_BUTTON + " " + ACTION_BUTTON_DANGER + " rounded-r-sm"}>
+                    <TrashIcon className="size-5" />
+                  </button>
+                </div>
+
+                {/*}
                 <Link
                   href={`/requests/${req.id}`}
                   className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700      focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2      dark:focus-visible:ring-offset-zinc-900 transition"
@@ -148,6 +173,7 @@ export default function Requests() {
                 >
                   Eliminar
                 </button>
+                */}
               </div>
             </article>
           ))}
@@ -160,6 +186,6 @@ export default function Requests() {
           </Link>
         </div>
       </div>
-    </MainLayout>
+    </MainLayout >
   );
 }
