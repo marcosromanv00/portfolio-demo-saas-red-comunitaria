@@ -1,11 +1,12 @@
 // src/pages/requests.js
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import MainLayout from "../components/layout/MainLayout";
 import { RequestsService } from "../services/requests.service";
 import { FooterNav } from "@/components/ui/footerNav";
 import RequestCard from "@/components/requests/RequestCard";
+
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
