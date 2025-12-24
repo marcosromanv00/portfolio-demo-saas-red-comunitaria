@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import MainLayout from "../components/layout/MainLayout";
 import { RequestsService } from "../services/requests.service";
+import { FooterNav } from "@/components/ui/footerNav";
+import RequestCard from "@/components/requests/RequestCard";
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -24,11 +26,12 @@ export default function Requests() {
 
     setRequests(data);
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     fetchRequests();
-  }, []);
+  }, [fetchRequests]);
+
 
   const deleteRequest = async (id) => {
     const confirmDelete = confirm(
@@ -39,9 +42,12 @@ export default function Requests() {
 
     const { error } = await RequestsService.remove(id);
 
-    if (!error) {
-      fetchRequests();
+    if (error) {
+      setError("No se pudo eliminar la solicitud.");
+      return;
     }
+
+    fetchRequests();
   };
 
   return (
@@ -88,51 +94,12 @@ export default function Requests() {
         {/* GRID */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {requests.map((req) => (
-            <article
-              key={req.id}
-              className=" group flex flex-col justify-between rounded-xl p-5 shadow-sm hover:shadow-md transition
-              "
-              style={{
-                backgroundColor: "var(--surface)",
-                borderColor: "var(--border)",
-              }}
-            >
-              {/* CONTENT */}
-              <div>
-                <h2 className="text-lg font-semibold mb-1">
-                  {req.name}
-                </h2>
-
-                <p className="text-sm opacity-70 line-clamp-3">
-                  {req.description}
-                </p>
-
-                {/* META */}
-                <div className="mt-3 flex flex-col items gap-2 opacity-80">
-                  <span className="badge">
-                    🏷️ {req.category}
-                  </span>
-                  <span className="badge">
-                    📍 {req.location}
-                  </span>
-                  <span className="badge badge-status">
-                    ⚙️ {req.status}
-                  </span>
-                </div>
-              </div>
-
-              {/* ACTIONS */}
-              
-            </article>
+            requests && <RequestCard key={req.id} request={req} onDelete={deleteRequest} />
           ))}
         </div>
 
         {/* FOOTER NAV */}
-        <div className="mt-12">
-          <Link href="/" className="text-sm text-blue-600 hover:underline">
-            ← Volver al inicio
-          </Link>
-        </div>
+        <FooterNav />
       </div>
     </MainLayout >
   );
