@@ -61,7 +61,7 @@ export default function RequestCards({ request, onDelete }) {
                 </Link>
 
                 <button
-                    onClick={() => RequestsService.remove(request.id)}
+                    onClick={() => onDelete(request.id)}
                     className={ACTION_BUTTON + " " + ACTION_BUTTON_DANGER + " rounded-r-sm"}>
                     <TrashIcon className="size-5" />
                 </button>
