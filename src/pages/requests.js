@@ -4,14 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import MainLayout from "../components/layout/MainLayout";
 import { RequestsService } from "../services/requests.service";
-import {
-  ACTION_GROUP,
-  ACTION_BUTTON,
-  ACTION_BUTTON_DANGER,
-} from "@/components/ui/actionStyles";
-import { EyeIcon } from "@/components/icons/EyeIcon";
-import { EditIcon } from "@/components/icons/EditIcon";
-import { TrashIcon } from "@/components/icons/TrashIcon";
 
 export default function Requests() {
   const [requests, setRequests] = useState([]);
@@ -130,51 +122,7 @@ export default function Requests() {
               </div>
 
               {/* ACTIONS */}
-              <div className="-mt-4 flex justify-end-safe text-sm">
-
-                <div className={ACTION_GROUP}>
-                  <Link
-                    href={`/requests/${req.id}`}
-                    className={ACTION_BUTTON + " rounded-l-sm"}>
-                    <EyeIcon className="size-5" />
-                  </Link>
-
-                  <Link
-                    href={`/requests/${req.id}/edit`}
-                    className={ACTION_BUTTON + " border-x border-gray-200"}>
-                    <EditIcon className="size-5" />
-                  </Link>
-
-                  <button
-                    onClick={() => deleteRequest(req.id)}
-                    className={ACTION_BUTTON + " " + ACTION_BUTTON_DANGER + " rounded-r-sm"}>
-                    <TrashIcon className="size-5" />
-                  </button>
-                </div>
-
-                {/*}
-                <Link
-                  href={`/requests/${req.id}`}
-                  className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700      focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2      dark:focus-visible:ring-offset-zinc-900 transition"
-                >
-                  Ver solicitud
-                </Link>
-
-                <Link
-                  href={`/requests/${req.id}/edit`}
-                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-zinc-700 px-3 py-1.5 text-sm font-medium text-green-600 dark:text-zinc-300hover:bg-gray-100 dark:hover:bg-zinc-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900 transition"
-                >
-                  Editar
-                </Link>
-
-                <button
-                  onClick={() => deleteRequest(req.id)}
-                  className="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-900 transition"
-                >
-                  Eliminar
-                </button>
-                */}
-              </div>
+              
             </article>
           ))}
         </div>
