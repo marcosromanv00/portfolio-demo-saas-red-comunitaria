@@ -1,40 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🏘️ Red Comunitaria Demo
 
-## Getting Started
+Una plataforma moderna para gestionar solicitudes de ayuda comunitaria. Este proyecto permite a los usuarios crear, visualizar y administrar solicitudes de manera organizada y eficiente.
 
-First, run the development server:
+## ✨ Características
+
+- 📝 **Crear solicitudes** - Formulario intuitivo para registrar nuevas solicitudes de ayuda
+- 👀 **Visualizar solicitudes** - Lista completa de todas las solicitudes con detalles
+- 🔍 **Ver detalles** - Página individual para cada solicitud con información completa
+- 🌓 **Tema claro/oscuro** - Cambio de tema con persistencia en localStorage
+- 📱 **Diseño responsive** - Optimizado para dispositivos móviles y desktop
+- ⚡ **Rendimiento optimizado** - Construido con Next.js y React 19
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **UI Library**: [React 19](https://react.dev/)
+- **Lenguaje**: [TypeScript](https://www.typescriptlang.org/)
+- **Estilos**: [TailwindCSS 4](https://tailwindcss.com/) + CSS Variables
+- **Base de datos**: [Supabase](https://supabase.com/)
+- **Tema**: [next-themes](https://github.com/pacocoursey/next-themes)
+
+## 🚀 Instalación y Configuración
+
+### Prerrequisitos
+
+- Node.js 18+ instalado
+- Una cuenta de Supabase (gratuita)
+- npm, yarn, pnpm o bun
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/marcosroman00/red-comunitaria-demo.git
+cd red-comunitaria-demo
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+# o
+yarn install
+# o
+pnpm install
+```
+
+### 3. Configurar variables de entorno
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+```
+
+> **¿Dónde obtengo estas credenciales?**
+>
+> 1. Ve a [supabase.com](https://supabase.com) y crea un proyecto
+> 2. En tu proyecto, ve a Settings → API
+> 3. Copia la `URL` y la `anon/public` key
+
+### 4. Configurar la base de datos
+
+Ejecuta este SQL en el editor de Supabase (SQL Editor):
+
+```sql
+-- Crear tabla de solicitudes
+create table requests (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  description text not null,
+  status text default 'pending',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Habilitar Row Level Security
+alter table requests enable row level security;
+
+-- Política para permitir lectura pública
+create policy "Allow public read access"
+  on requests for select
+  using (true);
+
+-- Política para permitir inserción pública
+create policy "Allow public insert access"
+  on requests for insert
+  with check (true);
+```
+
+### 5. Ejecutar el proyecto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## 📁 Estructura del Proyecto
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```
+red-comunitaria-demo/
+├── src/
+│   ├── app/                    # App Router (Next.js 13+)
+│   │   ├── layout.tsx         # Layout principal
+│   │   ├── page.tsx           # Página de inicio
+│   │   ├── requests/          # Rutas de solicitudes
+│   │   └── new-request/       # Formulario de nueva solicitud
+│   ├── components/            # Componentes React
+│   │   ├── layout/           # Header, Footer, MainLayout
+│   │   ├── ui/               # Componentes UI reutilizables
+│   │   ├── requests/         # Componentes de solicitudes
+│   │   └── providers/        # Context providers
+│   ├── lib/                  # Utilidades y configuración
+│   │   └── supabase.ts       # Cliente de Supabase
+│   ├── types/                # Tipos TypeScript
+│   └── styles/               # Estilos globales
+├── public/                   # Archivos estáticos
+└── package.json
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## 🎨 Temas
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El proyecto incluye soporte completo para tema claro y oscuro:
 
-## Learn More
+- Detección automática de preferencia del sistema
+- Toggle manual en el header
+- Persistencia en localStorage
+- Sin flash de contenido sin estilo (FOUC)
 
-To learn more about Next.js, take a look at the following resources:
+## 🧪 Scripts Disponibles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+```bash
+npm run dev      # Servidor de desarrollo
+npm run build    # Build de producción
+npm run start    # Servidor de producción
+npm run lint     # Ejecutar ESLint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📝 Licencia
 
-## Deploy on Vercel
+Este es un proyecto de demostración y práctica. Siéntete libre de usarlo como referencia o base para tus propios proyectos.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤝 Contribuciones
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Este es un proyecto personal de aprendizaje, pero sugerencias y feedback son bienvenidos.
+
+## 📧 Contacto
+
+- GitHub: [@marcosroman00](https://github.com/marcosroman00)
+- Proyecto: [red-comunitaria-demo](https://github.com/marcosroman00/red-comunitaria-demo)
+
+---
+
+**Construido con ❤️ usando Next.js y Supabase**
