@@ -8,7 +8,7 @@ export const revalidate = 0; // Disable caching for this page
 
 async function getRequests(): Promise<Request[]> {
   const { data, error } = await supabase
-    .from("requests")
+    .from("community_requests")
     .select("*")
     .order("created_at", { ascending: false });
 

@@ -44,10 +44,14 @@ export default function NewRequestForm() {
     const requestData: NewRequest = {
       title: formData.name,
       description: formData.description,
+      category: formData.category,
+      location: formData.location,
       status: "pending",
     };
 
-    const { error } = await supabase.from("requests").insert([requestData]);
+    const { error } = await supabase
+      .from("community_requests")
+      .insert([requestData]);
 
     setLoading(false);
 

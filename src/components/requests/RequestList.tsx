@@ -23,7 +23,10 @@ export default function RequestList({ initialRequests }: RequestListProps) {
 
     if (!confirmDelete) return;
 
-    const { error } = await supabase.from("requests").delete().eq("id", id);
+    const { error } = await supabase
+      .from("community_requests")
+      .delete()
+      .eq("id", id);
 
     if (error) {
       setError("No se pudo eliminar la solicitud.");

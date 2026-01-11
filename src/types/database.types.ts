@@ -2,11 +2,13 @@
 export interface Database {
   public: {
     Tables: {
-      requests: {
+      community_requests: {
         Row: {
           id: string;
           title: string;
           description: string;
+          category: string;
+          location: string;
           status: string;
           created_at: string;
         };
@@ -14,6 +16,8 @@ export interface Database {
           id?: string;
           title: string;
           description: string;
+          category: string;
+          location: string;
           status?: string;
           created_at?: string;
         };
@@ -21,6 +25,8 @@ export interface Database {
           id?: string;
           title?: string;
           description?: string;
+          category?: string;
+          location?: string;
           status?: string;
           created_at?: string;
         };
@@ -30,10 +36,12 @@ export interface Database {
 }
 
 // Type for a single request row
-export type Request = Database["public"]["Tables"]["requests"]["Row"];
+export type Request = Database["public"]["Tables"]["community_requests"]["Row"];
 
 // Type for inserting a new request
-export type NewRequest = Database["public"]["Tables"]["requests"]["Insert"];
+export type NewRequest =
+  Database["public"]["Tables"]["community_requests"]["Insert"];
 
 // Type for updating a request
-export type UpdateRequest = Database["public"]["Tables"]["requests"]["Update"];
+export type UpdateRequest =
+  Database["public"]["Tables"]["community_requests"]["Update"];
