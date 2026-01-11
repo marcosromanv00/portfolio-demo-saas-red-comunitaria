@@ -15,8 +15,8 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* HERO SECTION */}
-      <section className="relative pt-20 pb-32 md:pt-32 md:pb-48 overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
+      <section className="relative pt-10 pb-24 md:pt-14 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-primary/20 via-background to-background"></div>
         <div className="container mx-auto px-4 text-center">
           <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary hover:bg-primary/20 mb-8 animate-fade-in">
             <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 max-w-4xl mx-auto font-heading leading-tight animate-slide-in-up">
             Conectando necesidades con{" "}
-            <span className="bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary to-indigo-600 bg-clip-text text-transparent">
               soluciones reales
             </span>
           </h1>
@@ -84,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES BENTO GRID */}
-      <section className="py-24 relative">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-3xl md:text-5xl font-bold font-heading">
@@ -101,7 +101,7 @@ export default function Home() {
             style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
           >
             {/* Feature 1 (Large) */}
-            <Card className="md:col-span-2 glass-effect border-primary/10 bg-gradient-to-br from-background to-primary/5 hover:border-primary/30 transition-all duration-500 group">
+            <Card className="md:col-span-2 glass-effect border-primary/10 bg-linear-to-br from-background to-primary/5 hover:border-primary/30 transition-all duration-500 group">
               <CardHeader>
                 <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 text-blue-600 group-hover:scale-110 transition-transform">
                   <Zap className="h-6 w-6" />
@@ -150,7 +150,7 @@ export default function Home() {
             </Card>
 
             {/* Feature 4 (Large) */}
-            <Card className="md:col-span-2 glass-effect border-primary/10 bg-gradient-to-bl from-background to-indigo-500/5 hover:border-primary/30 transition-all duration-500 group">
+            <Card className="md:col-span-2 glass-effect border-primary/10 bg-linear-to-bl from-background to-indigo-500/5 hover:border-primary/30 transition-all duration-500 group">
               <CardHeader>
                 <div className="h-12 w-12 rounded-xl bg-green-500/10 flex items-center justify-center mb-4 text-green-600 group-hover:scale-110 transition-transform">
                   <Users className="h-6 w-6" />
@@ -169,7 +169,7 @@ export default function Home() {
       </section>
 
       {/* CTA SECTION */}
-      <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
+      <section className="py-20 bg-primary text-primary-foreground relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6">

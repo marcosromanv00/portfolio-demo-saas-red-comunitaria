@@ -7,14 +7,14 @@ export const revalidate = 0; // Disable caching
 
 export default function RequestsPage() {
   return (
-    <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 animate-fade-in">
+    <div className="container max-w-6xl mx-auto px-4 py-8 md:py-10 animate-fade-in">
       {/* HEADER */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 md:mb-12">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold font-heading mb-1">
             Solicitudes Comunitarias
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base">
             Gestión y seguimiento de las necesidades de la comunidad.
           </p>
         </div>
