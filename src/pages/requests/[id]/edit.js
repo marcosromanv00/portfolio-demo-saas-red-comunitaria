@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RequestsService } from "@/services/requests.service";
 import MainLayout from "@/components/layout/MainLayout";
+import RequestForm from "@/components/requests/RequestForm";
 
 export default function EditRequestPage() {
   const router = useRouter();
@@ -60,25 +61,19 @@ export default function EditRequestPage() {
    * Guarda los cambios en Supabase.
    * Previene múltiples envíos y maneja errores de forma segura.
    */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleUpdate = async (data) => {
     setSaving(true);
 
-    const { error } = await RequestsService.update(id, {
-      name: formData.name,
-      description: formData.description,
-      category: formData.category,
-      location: formData.location,
-    });
+    const { error } = await RequestsService.update(id, data);
 
     setSaving(false);
 
     if (error) {
-      alert("Error al guardar los cambios");
-    } else {
-      alert("Solicitud actualizada correctamente");
-      router.push(`/requests/${id}`);
+      setError("Error al guardar los cambios.");
+      return;
     }
+
+    router.push(`/requests/${id}`);
   };
 
   /* ---------- Estados visuales ---------- */
@@ -113,104 +108,17 @@ export default function EditRequestPage() {
     <MainLayout>
       <div className="min-vdh-screen flex items-center justify-center w-full px-4">
         <div className="w-full max-w-3xl">
-          <div
-            className="rounded-xl border p-6 md:p-8 shadow-sm"
-            style={{
-              backgroundColor: "var(--surface)",
-              borderColor: "var(--border)",
-            }}
-          >
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold">
-                Editar solicitud
-              </h1>
-              <p className="text-sm opacity-70 mt-1">
-                Actualiza el registro de la solicitud comunitaria
-              </p>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Nombre */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Nombre</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
-                  style={{ borderColor: "var(--border)" }}
-                />
-              </div>
-
-              {/* Descripción */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Descripción
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
-                  style={{ borderColor: "var(--border)" }}
-                />
-              </div>
-
-              {/* Categoría */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Categoría
-                </label>
-                <input
-                  type="text"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
-                  style={{ borderColor: "var(--border)" }}
-                />
-              </div>
-
-              {/* Ubicación */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Ubicación
-                </label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border px-3 py-2 text-sm bg-transparent focus:outline-none focus:ring-2"
-                  style={{ borderColor: "var(--border)" }}
-                />
-              </div>
-
-              {/* Acciones */}
-              <div className="flex justify-end gap-4 pt-4">
-                <button
-                  type="button"
-                  onClick={() => router.back()}
-                  className="rounded-lg border border-gray-300 dark:border-gray-600 px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-                >
-                  Cancelar
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60 transition"
-                >
-                  {saving ? "Guardando…" : "Guardar cambios"}
-                </button>
-              </div>
-            </form>
-          </div>
+          <RequestForm
+            initialData={formData}
+            title="Editar solicitud"
+            subtitle="Modifica los detalles de la solicitud"
+            submitLabel="Guardar cambios"
+            loading={saving}
+            error={error}
+            message={null}
+            onSubmit={handleUpdate}
+            onCancel={() => router.back()}
+          />
         </div>
       </div>
     </MainLayout>

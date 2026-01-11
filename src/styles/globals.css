@@ -164,3 +164,54 @@ body {
 .btn-new-request:hover {
   background-color: var(--primary-hover);
 }
+
+/* =========================================
+   Base inputs (text, textarea, select)
+   ========================================= */
+
+.input-base {
+  width: 100%;
+  background-color: transparent;
+
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  /* rounded-lg */
+
+  padding: 0.5rem 0.75rem;
+  /* px-3 py-2 */
+  font-size: 0.875rem;
+  /* text-sm */
+  line-height: 1.25rem;
+
+  color: var(--foreground);
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+/* Placeholder */
+.input-base::placeholder {
+  color: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+/* Focus visible (accesible) */
+.input-base:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+/* Disabled */
+.input-base:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Textarea specifics */
+textarea.input-base {
+  resize: vertical;
+  min-height: 5rem;
+}
