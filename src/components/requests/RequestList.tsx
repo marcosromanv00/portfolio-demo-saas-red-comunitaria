@@ -11,10 +11,9 @@ import {
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Trash2, MapPin, Calendar, Tag } from "lucide-react";
+import { Trash2, MapPin, Calendar, Tag, Eye, Pencil } from "lucide-react";
 import type { Request } from "@/types/database.types";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 export default function RequestList() {
   const [requests, setRequests] = useState<Request[]>([]);
@@ -50,6 +49,13 @@ export default function RequestList() {
     } else {
       alert("Error al eliminar");
     }
+  };
+
+  const handleEdit = (id: string) => {
+    // For now, checking viewing/editing is a future feature or separate page
+    // Redirect to a detail page if it existed, for now just log
+    console.log("Edit/View request:", id);
+    router.push(`/requests/${id}`); // Assumes dynamic route exists or will exist
   };
 
   if (loading) {
@@ -88,7 +94,7 @@ export default function RequestList() {
       {requests.map((req, index) => (
         <Card
           key={req.id}
-          className="group hover:border-primary/50 transition-colors animate-slide-in-up"
+          className="group hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 animate-slide-in-up"
           style={{ animationDelay: `${index * 100}ms` }}
         >
           <CardHeader>
@@ -123,15 +129,24 @@ export default function RequestList() {
               </div>
             </div>
           </CardContent>
-          <CardFooter className="border-t border-border/30 bg-muted/20 mt-auto">
+          <CardFooter className="border-t border-border/30 bg-muted/20 mt-auto pt-4 flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 hover:bg-primary hover:text-white transition-colors"
+              onClick={() => handleEdit(req.id)}
+            >
+              <Eye className="h-4 w-4 mr-2" />
+              Ver
+            </Button>
             <Button
               variant="ghost"
               size="sm"
-              className="ml-auto text-destructive hover:text-destructive hover:bg-destructive/10"
+              className="text-destructive hover:text-destructive hover:bg-destructive/10"
               onClick={() => handleDelete(req.id)}
             >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Eliminar
+              <Trash2 className="h-4 w-4" />
+              <span className="sr-only">Eliminar</span>
             </Button>
           </CardFooter>
         </Card>
