@@ -19,7 +19,7 @@ export default function Home() {
           Red Comunitaria Activa
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent drop-shadow-sm font-heading">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 max-w-4xl bg-linear-to-br from-foreground to-foreground/70 bg-clip-text text-transparent drop-shadow-sm font-heading">
           Conectando necesidades con{" "}
           <span className="text-primary">soluciones reales</span>
         </h1>
