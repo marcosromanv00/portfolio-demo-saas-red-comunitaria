@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "@/styles/globals.css";
@@ -9,11 +9,53 @@ import Footer from "@/components/layout/Footer";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "Red Comunitaria Demo",
+  metadataBase: new URL("https://red-comunitaria-demo.vercel.app"),
+  title: {
+    default: "Red Comunitaria | Conectando Vecinos",
+    template: "%s | Red Comunitaria",
+  },
   description:
-    "Plataforma para gestionar solicitudes de ayuda comunitaria de forma organizada y eficiente.",
-  keywords: ["comunidad", "solicitudes", "ayuda", "gestión"],
+    "Plataforma líder para la gestión de solicitudes comunitarias. Conecta con tus vecinos, reporta necesidades y mejora tu comunidad.",
+  keywords: [
+    "comunidad",
+    "vecinos",
+    "ayuda",
+    "gestión",
+    "voluntariado",
+    "barrio",
+  ],
+  authors: [{ name: "Red Comunitaria Team" }],
+  creator: "Red Comunitaria",
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://red-comunitaria-demo.vercel.app",
+    title: "Red Comunitaria | Conectando Vecinos",
+    description:
+      "Ayuda a tu comunidad gestionando y resolviendo solicitudes vecinales.",
+    siteName: "Red Comunitaria",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Red Comunitaria | Conectando Vecinos",
+    description:
+      "Ayuda a tu comunidad gestionando y resolviendo solicitudes vecinales.",
+    creator: "@redcomunitaria",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
