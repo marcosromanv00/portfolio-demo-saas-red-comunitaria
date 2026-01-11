@@ -78,10 +78,11 @@ export default function NewRequestForm() {
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto py-8">
+    <div className="w-full max-w-lg mx-auto">
       <Link
         href="/requests"
-        className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-6 transition-colors"
+        className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-2 transition-colors
+        -mx-8"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Volver a solicitudes
