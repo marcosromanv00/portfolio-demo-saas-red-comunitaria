@@ -22,19 +22,19 @@ export default function RequestList() {
   const router = useRouter();
 
   useEffect(() => {
+    const fetchRequests = async () => {
+      setLoading(true);
+      const { data } = await supabase
+        .from("community_requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (data) setRequests(data);
+      setLoading(false);
+    };
+
     fetchRequests();
   }, []);
-
-  const fetchRequests = async () => {
-    setLoading(true);
-    const { data } = await supabase
-      .from("community_requests")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (data) setRequests(data);
-    setLoading(false);
-  };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("¿Estás seguro de eliminar esta solicitud?")) return;

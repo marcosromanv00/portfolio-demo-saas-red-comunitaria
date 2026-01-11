@@ -1,14 +1,11 @@
-import MainLayout from "@/components/layout/MainLayout";
 import NewRequestForm from "@/components/requests/NewRequestForm";
 
 export default function NewRequestPage() {
   return (
-    <MainLayout>
-      <div className="flex items-center justify-center w-full px-4">
-        <div className="w-full max-w-3xl">
-          <NewRequestForm />
-        </div>
+    <div className="container mx-auto px-4 py-8 md:py-12 animate-fade-in">
+      <div className="flex items-center justify-center w-full">
+        <NewRequestForm />
       </div>
-    </MainLayout>
+    </div>
   );
 }

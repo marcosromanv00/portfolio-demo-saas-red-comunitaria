@@ -1,48 +1,37 @@
-import MainLayout from "@/components/layout/MainLayout";
 import RequestList from "@/components/requests/RequestList";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import type { Request } from "@/types/database.types";
+import { Plus } from "lucide-react";
 
-export const revalidate = 0; // Disable caching for this page
+export const revalidate = 0; // Disable caching
 
-async function getRequests(): Promise<Request[]> {
-  const { data, error } = await supabase
-    .from("community_requests")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching requests:", error);
-    return [];
-  }
-
-  return data || [];
-}
-
-export default async function RequestsPage() {
-  const requests = await getRequests();
-
+export default function RequestsPage() {
   return (
-    <MainLayout>
-      <div className="max-w-6xl mx-auto px-4">
-        {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
-          <div>
-            <h1 className="text-3xl font-bold">Solicitudes comunitarias</h1>
-            <p className="text-sm opacity-70 mt-1">
-              Gestión y seguimiento de solicitudes registradas
-            </p>
-          </div>
-
-          <Link href="/new-request" className="btn-new-request">
-            + Nueva solicitud
-          </Link>
+    <div className="container max-w-6xl mx-auto px-4 py-8 md:py-12 animate-fade-in">
+      {/* HEADER */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 md:mb-12">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold font-heading mb-2">
+            Solicitudes Comunitarias
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            Gestión y seguimiento de las necesidades de la comunidad.
+          </p>
         </div>
 
-        {/* REQUEST LIST */}
-        <RequestList initialRequests={requests} />
+        <Link href="/new-request">
+          <Button
+            size="lg"
+            className="w-full sm:w-auto shadow-lg shadow-primary/20"
+          >
+            <Plus className="mr-2 h-5 w-5" />
+            Nueva Solicitud
+          </Button>
+        </Link>
       </div>
-    </MainLayout>
+
+      {/* REQUEST LIST */}
+      <RequestList />
+    </div>
   );
 }
