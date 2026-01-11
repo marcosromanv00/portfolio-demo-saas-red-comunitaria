@@ -4,6 +4,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { NewRequest } from "@/types/database.types";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Textarea } from "@/components/ui/Textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/Card";
+import { Label } from "@/components/ui/Label";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 interface FormData {
   name: string;
@@ -56,145 +69,108 @@ export default function NewRequestForm() {
     setLoading(false);
 
     if (error) {
-      setError("No se pudo crear la solicitud.");
+      setError("No se pudo crear la solicitud. Inténtalo de nuevo.");
       return;
     }
 
-    setMessage("Solicitud creada correctamente ✨");
-    setTimeout(() => router.push("/requests"), 900);
+    setMessage("Solicitud creada correctamente");
+    setTimeout(() => router.push("/requests"), 1000);
   };
 
   return (
-    <div
-      className="rounded-xl border p-6 md:p-8 shadow-sm"
-      style={{
-        backgroundColor: "var(--surface)",
-        borderColor: "var(--border)",
-      }}
-    >
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Crear nueva solicitud</h1>
-        <p className="text-sm opacity-70 mt-1">
-          Registra una necesidad o solicitud comunitaria
-        </p>
-      </div>
+    <div className="flex justify-center items-start w-full py-10 px-4">
+      <Card className="w-full max-w-lg border-primary/20 shadow-2xl shadow-primary/5 animate-slide-in-up">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl">Crear nueva solicitud</CardTitle>
+          <CardDescription>
+            Registra una necesidad o solicitud para la comunidad.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {error && (
+            <div className="mb-6 flex items-center gap-3 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4" />
+              {error}
+            </div>
+          )}
+          {message && (
+            <div className="mb-6 flex items-center gap-3 rounded-lg bg-green-500/10 p-3 text-sm text-green-500">
+              <CheckCircle2 className="h-4 w-4" />
+              {message}
+            </div>
+          )}
 
-      {/* Messages */}
-      {error && (
-        <div
-          className="mb-4 rounded-md border px-4 py-2 text-sm"
-          style={{
-            backgroundColor:
-              "color-mix(in srgb, var(--danger) 15%, transparent)",
-            borderColor: "var(--danger)",
-            color: "var(--danger)",
-          }}
-        >
-          ❌ {error}
-        </div>
-      )}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <Label htmlFor="name">Título</Label>
+              <Input
+                id="name"
+                name="name"
+                placeholder="Ej: Reparación del parque central"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-      {message && (
-        <div
-          className="mb-4 rounded-md border px-4 py-2 text-sm"
-          style={{
-            backgroundColor:
-              "color-mix(in srgb, var(--success) 15%, transparent)",
-            borderColor: "var(--success)",
-            color: "var(--success)",
-          }}
-        >
-          ✅ {message}
-        </div>
-      )}
+            <div className="space-y-2">
+              <Label htmlFor="category">Categoría</Label>
+              <Input
+                id="category"
+                name="category"
+                placeholder="Ej: Infraestructura, Salud, Eventos..."
+                value={formData.category}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Nombre */}
-        <Field label="Nombre">
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            placeholder="Ej: Asociación Amigos de Alajuela"
-            className="input-base"
-          />
-        </Field>
+            <div className="space-y-2">
+              <Label htmlFor="location">Ubicación</Label>
+              <Input
+                id="location"
+                name="location"
+                placeholder="Ej: Barrio Los Ángeles"
+                value={formData.location}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        {/* Descripción */}
-        <Field label="Descripción">
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            rows={4}
-            placeholder="Describe la necesidad"
-            className="input-base"
-          />
-        </Field>
+            <div className="space-y-2">
+              <Label htmlFor="description">Descripción detallada</Label>
+              <Textarea
+                id="description"
+                name="description"
+                placeholder="Describe la situación actual y qué se necesita..."
+                value={formData.description}
+                onChange={handleChange}
+                required
+                className="min-h-[100px]"
+              />
+            </div>
 
-        {/* Categoría */}
-        <Field label="Categoría">
-          <input
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            placeholder="Salud, Educación…"
-            className="input-base"
-          />
-        </Field>
-
-        {/* Ubicación */}
-        <Field label="Ubicación">
-          <input
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            required
-            placeholder="Alajuela Centro"
-            className="input-base"
-          />
-        </Field>
-
-        {/* Actions */}
-        <div className="flex justify-end gap-4 pt-4">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="rounded-lg border px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-800 transition"
-          >
-            Cancelar
-          </button>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:opacity-60 transition"
-          >
-            {loading ? "Guardando…" : "Crear solicitud"}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-/* ---------- Subcomponent ---------- */
-
-interface FieldProps {
-  label: string;
-  children: React.ReactNode;
-}
-
-function Field({ label, children }: FieldProps) {
-  return (
-    <div>
-      <label className="block text-sm font-medium mb-1">{label}</label>
-      {children}
+            <div className="flex items-center gap-4 pt-4">
+              <Button
+                type="button"
+                variant="ghost"
+                className="w-full"
+                onClick={() => router.back()}
+              >
+                Cancelar
+              </Button>
+              <Button
+                type="submit"
+                className="w-full"
+                isLoading={loading}
+                disabled={loading || !!message}
+              >
+                Crear Solicitud
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
