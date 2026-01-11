@@ -83,4 +83,4 @@ src/
 
 ---
 
-Diseñado y Desarrollado por [Tu Nombre] para demostración de capacidades Full Stack.
+Diseñado y Desarrollado por Marcos Román Valverde para demostración de capacidades Full Stack.
