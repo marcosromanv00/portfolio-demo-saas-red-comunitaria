@@ -11,6 +11,7 @@ import { useState } from "react";
 const navigation = [
   { name: "Inicio", href: "/" },
   { name: "Solicitudes", href: "/requests" },
+  { name: "Propuestas", href: "/proposals" },
 ];
 
 export default function Header() {
