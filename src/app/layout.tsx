@@ -36,6 +36,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Red Comunitaria Team" }],
   creator: "Red Comunitaria",
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "es_ES",
@@ -44,6 +52,14 @@ export const metadata: Metadata = {
     description:
       "Ayuda a tu comunidad gestionando y resolviendo solicitudes vecinales.",
     siteName: "Red Comunitaria",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Red Comunitaria - Conectando Vecinos",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -51,7 +67,15 @@ export const metadata: Metadata = {
     description:
       "Ayuda a tu comunidad gestionando y resolviendo solicitudes vecinales.",
     creator: "@redcomunitaria",
+    images: ["/og-image.png"],
   },
+  verification: {
+    google: "google-site-verification-placeholder",
+    yandex: "yandex-verification-placeholder",
+    me: "me-verification-placeholder",
+  },
+  category: "technology",
+  classification: "Community Management",
   robots: {
     index: true,
     follow: true,
