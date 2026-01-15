@@ -54,12 +54,26 @@ export default function NewRequestForm() {
     setMessage(null);
     setLoading(true);
 
+    // Obtener el ID del usuario actual (anónimo)
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      setError(
+        "No se pudo identificar tu sesión. Por favor, recarga la página."
+      );
+      setLoading(false);
+      return;
+    }
+
     const requestData: NewRequest = {
       name: formData.name,
       description: formData.description,
       category: formData.category,
       location: formData.location,
       status: "pending",
+      user_id: user.id, // Enviamos el ID explícitamente
     };
 
     const { error } = await supabase
