@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "RedComunidad",
     description: "Plataforma de gestión de solicitudes vecinales",
     start_url: "/",
-    display: "standalone",
+    display: "browser",
     background_color: "#ffffff",
     theme_color: "#3b82f6",
     icons: [
