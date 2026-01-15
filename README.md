@@ -1,86 +1,90 @@
-# 🏙️ Red Comunitaria - Sistema de Gestión Vecinal
+# 🏙️ Red Comunitaria - Neighbor Management System
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![Vercel Deployment](https://img.shields.io/badge/deploy-vercel-black.svg)](https://vercel.com)
 ![Status](https://img.shields.io/badge/status-portfolio_ready-green.svg)
-
-**Una plataforma moderna para conectar necesidades barriales con soluciones comunitarias.**
-
-Este proyecto es una demostración técnica de una aplicación web "Full Stack" construida con las últimas tecnologías del ecosistema React. Se enfoca en la experiencia de usuario (UX), el diseño de interfaz (UI) de alta fidelidad y el rendimiento.
-
-## ✨ Características Principales
-
-- **⚡ Arquitectura Moderna**: Construido con **Next.js 15 (App Router)** para renderizado híbrido y optimización SEO.
-- **🎨 Diseño Premium**: Sistema de diseño "Glassmorphism" personalizado utilizando **Tailwind CSS v4** y variables CSS nativas.
-  - Soporte nativo para **Modo Oscuro/Claro** (`next-themes`).
-  - Animaciones fluidas y micro-interacciones.
-  - Diseño totalmente responsivo (Mobile First).
-- **💾 Backend Serverless**: Integración con **Supabase** para base de datos en tiempo real y almacenamiento.
-- **🛡️ TypeScript Puro**: Tipado estricto en toda la aplicación para robustez y mantenibilidad.
-- **🔍 SEO Optimizado**: Metadatos dinámicos, Open Graph, Sitemap y Robots.txt generados automáticamente.
-
-## 🛠️ Stack Tecnológico
-
-| Categoría      | Tecnología                                                     |
-| :------------- | :------------------------------------------------------------- |
-| **Framework**  | [Next.js 15](https://nextjs.org/) (App Router, Server Actions) |
-| **Lenguaje**   | [TypeScript](https://www.typescriptlang.org/)                  |
-| **Estilos**    | [Tailwind CSS v4](https://tailwindcss.com/)                    |
-| **Backend/DB** | [Supabase](https://supabase.com/)                              |
-| **Iconos**     | [Lucide React](https://lucide.dev/)                            |
-| **Utilidades** | `clsx`, `tailwind-merge`, `cva`                                |
-
-## 🚀 Instalación y Ejecución
-
-1.  **Clonar el repositorio**:
-
-    ```bash
-    git clone https://github.com/usuario/red-comunitaria-demo.git
-    cd red-comunitaria-demo
-    ```
-
-2.  **Instalar dependencias**:
-
-    ```bash
-    npm install
-    ```
-
-3.  **Configurar variables de entorno**:
-    Crea un archivo `.env.local` en la raíz basado en `.env.example`:
-
-    ```bash
-    NEXT_PUBLIC_SUPABASE_URL=tu_url_supabase
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_key_anonima
-    ```
-
-4.  **Ejecutar servidor de desarrollo**:
-    ```bash
-    npm run dev
-    ```
-    Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
-
-## 📂 Estructura del Proyecto
-
-```
-src/
-├── app/                 # App Router (Páginas y Layouts)
-│   ├── new-request/     # Formulario de creación
-│   ├── requests/        # Listado y Detalle (Dinámico)
-│   ├── layout.tsx       # Layout Root con Providers
-│   └── page.tsx         # Landing Page
-├── components/
-│   ├── layout/          # Header, Footer
-│   ├── requests/        # Componentes de negocio (RequestList, ComplaintCard)
-│   └── ui/              # Sistema de Diseño (Button, Card, Badge...)
-├── lib/                 # Utilidades (supabase client, utils)
-└── styles/              # Global CSS (Tailwind imports)
-```
-
-## 🧠 Decisiones de Diseño
-
-- **Componentes Compuestos**: Se utilizó el patrón de composición para componentes complejos como `Card` y `NewRequestForm` para maximizar la reutilización.
-- **Server vs Client Components**: Se priorizaron los Server Components para el fetching de datos (optimización inicial) y Client Components solo para interactividad necesaria (formularios, listas dinámicas).
-- **Estética "Friendly Institutional"**: Se buscó un balance entre la seriedad de una herramienta municipal y la calidez necesaria para fomentar la participación vecinal, usando azules vibrantes y bordes redondeados.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ---
 
-Diseñado y Desarrollado por Marcos Román Valverde para demostración de capacidades Full Stack.
+### 🌐 [Español abajo](#-red-comunitaria---sistema-de-gestión-vecinal)
+
+A modern platform designed to connect neighborhood needs with community solutions. This project is a technical showcase of a Full Stack web application built with the latest React ecosystem technologies, focusing on UX, high-fidelity UI, and performance.
+
+## ✨ Key Features
+
+- **⚡ Modern Architecture**: Built with **Next.js 15 (App Router)** for hybrid rendering and SEO optimization.
+- **🎨 Premium Design**: Custom "Glassmorphism" design system using **Tailwind CSS v4** and native CSS variables.
+  - Native **Dark/Light Mode** support (`next-themes`).
+  - Fluid animations and micro-interactions.
+  - Fully responsive (Mobile First).
+- **💾 Serverless Backend**: **Supabase** integration for real-time database and storage.
+- **🛡️ Pure TypeScript**: Strict typing throughout the application for robustness.
+- **🔍 SEO Optimized**: Dynamic metadata, Open Graph, Sitemap, and Robots.txt.
+
+## 🛠️ Tech Stack
+
+| Category       | Technology                                                     |
+| :------------- | :------------------------------------------------------------- |
+| **Framework**  | [Next.js 15](https://nextjs.org/) (App Router, Server Actions) |
+| **Language**   | [TypeScript](https://www.typescriptlang.org/)                  |
+| **Styling**    | [Tailwind CSS v4](https://tailwindcss.com/)                    |
+| **Backend/DB** | [Supabase](https://supabase.com/)                              |
+| **Icons**      | [Lucide React](https://lucide.dev/)                            |
+
+## 🚀 Installation & Deployment
+
+### 1. Local Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/usuario/red-comunitaria-demo.git
+
+# Install dependencies
+npm install
+
+# Configure environment variables (.env.local)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Run development server
+npm run dev
+```
+
+### 2. Vercel Deployment (Production)
+
+1.  Push your code to GitHub.
+2.  Connect your repository to [Vercel](https://vercel.com).
+3.  Add the `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` variables in the Vercel dashboard.
+4.  Deploy!
+
+---
+
+# 🏙️ Red Comunitaria - Sistema de Gestión Vecinal
+
+Una plataforma moderna para conectar necesidades barriales con soluciones comunitarias. Este proyecto es una demostración técnica de una aplicación web Full Stack construida con las últimas tecnologías, enfocada en la experiencia de usuario (UX) y diseño premium.
+
+## ✨ Características Principales
+
+- **⚡ Arquitectura Moderna**: **Next.js 15 (App Router)** con optimización SEO.
+- **🎨 Diseño Premium**: Sistema "Glassmorphism" con **Tailwind CSS v4**.
+  - Soporte para **Modo Oscuro/Claro**.
+  - Animaciones fluidas y diseño responsivo.
+- **💾 Backend Serverless**: Integración con **Supabase** (Real-time DB).
+- **🛡️ TypeScript Puro**: Código robusto y mantenible.
+
+## 🚀 Instalación y Despliegue
+
+### 1. Configuración Local
+
+Sigue los pasos de la sección en inglés arriba para instalar dependencias y configurar las variables de entorno en tu archivo `.env.local`.
+
+### 2. Despliegue en Vercel
+
+1.  Sube tu código a GitHub.
+2.  Importa el proyecto en [Vercel](https://vercel.com).
+3.  Configura las variables de entorno en el panel de Vercel.
+4.  ¡Listo para producción!
+
+---
+
+Developed by **Marcos Román Valverde** as a Full Stack capability demonstration.
