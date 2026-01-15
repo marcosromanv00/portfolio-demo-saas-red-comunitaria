@@ -6,6 +6,8 @@ import { supabase } from "@/lib/supabase";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
+      console.log("AuthProvider: Iniciando verificación de auth...");
+
       // Intentamos obtener la sesión actual
       const {
         data: { session },
@@ -13,16 +15,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } = await supabase.auth.getSession();
 
       if (sessionError) {
-        console.error("Error al obtener la sesión:", sessionError);
+        console.error(
+          "AuthProvider: Error al obtener la sesión:",
+          sessionError
+        );
+        return;
+      }
+
+      if (session) {
+        console.log(
+          "AuthProvider: Sesión existente encontrada para el usuario:",
+          session.user.id
+        );
         return;
       }
 
       // Si no hay sesión, iniciamos sesión de forma anónima
-      if (!session) {
-        const { error: signInError } = await supabase.auth.signInAnonymously();
-        if (signInError) {
-          console.error("Error al iniciar sesión anónima:", signInError);
-        }
+      console.log("AuthProvider: No hay sesión. Intentando login anónimo...");
+      const { data, error: signInError } =
+        await supabase.auth.signInAnonymously();
+
+      if (signInError) {
+        console.error(
+          "AuthProvider: Error al iniciar sesión anónima:",
+          signInError
+        );
+      } else if (data.session) {
+        console.log(
+          "AuthProvider: Login anónimo exitoso. Nuevo Usuario:",
+          data.session.user.id
+        );
       }
     };
 

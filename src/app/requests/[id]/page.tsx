@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -12,55 +15,44 @@ import {
   Pencil,
 } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import type { Metadata, ResolvingMetadata } from "next";
+import { notFound, useParams } from "next/navigation";
+import type { Request } from "@/types/database.types";
 
-export const revalidate = 60; // Revalidate every minute
+export default function RequestDetailPage() {
+  const { id } = useParams();
+  const [request, setRequest] = useState<Request | null>(null);
+  const [loading, setLoading] = useState(true);
 
-interface Props {
-  params: Promise<{ id: string }>;
-}
+  useEffect(() => {
+    const fetchRequest = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("community_requests")
+        .select("*")
+        .eq("id", id as string)
+        .single();
 
-// 1. Generate Metadata Dynamically
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const { id } = await params;
-  const { data: request } = await supabase
-    .from("community_requests")
-    .select("name, description")
-    .eq("id", id)
-    .single();
-
-  if (!request) {
-    return {
-      title: "Solicitud no encontrada",
+      if (error || !data) {
+        console.error("Error fetching request:", error);
+      } else {
+        setRequest(data);
+      }
+      setLoading(false);
     };
+
+    if (id) fetchRequest();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="container max-w-5xl mx-auto px-4 py-20 text-center">
+        <div className="animate-spin inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
+        <p className="text-muted-foreground">Cargando detalles...</p>
+      </div>
+    );
   }
 
-  return {
-    title: `${request.name} | Red Comunitaria`,
-    description: request.description.slice(0, 160),
-    openGraph: {
-      title: request.name,
-      description: request.description.slice(0, 160),
-      type: "article",
-    },
-  };
-}
-
-// 2. Page Component
-export default async function RequestDetailPage({ params }: Props) {
-  const { id } = await params;
-
-  const { data: request, error } = await supabase
-    .from("community_requests")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error || !request) {
+  if (!request) {
     notFound();
   }
 
@@ -82,7 +74,7 @@ export default async function RequestDetailPage({ params }: Props) {
           </Button>
         </Link>
 
-        {/* Mock Edit Button (Functional UI) */}
+        {/* Mock Edit Button */}
         <Button variant="outline" size="sm" className="gap-2 h-9">
           <Pencil className="h-3.5 w-3.5" />
           Editar
@@ -131,10 +123,7 @@ export default async function RequestDetailPage({ params }: Props) {
         </div>
 
         {/* Sidebar Info */}
-        <div
-          className="space-y-6 lg:mt-0 mt-0 animate-slide-in-up"
-          style={{ animationDelay: "100ms" }}
-        >
+        <div className="space-y-6 lg:mt-0 mt-0 animate-slide-in-up">
           <Card className="glass-effect bg-card/50 backdrop-blur-xl border-primary/20 sticky top-24 shadow-xl">
             <CardHeader className="pb-4 pt-5 px-5">
               <CardTitle className="text-base font-bold border-b border-border/50 pb-2">
