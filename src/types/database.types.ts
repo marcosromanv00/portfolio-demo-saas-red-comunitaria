@@ -12,7 +12,7 @@ export interface Database {
       community_requests: {
         Row: {
           id: string;
-          title: string;
+          name: string;
           description: string;
           category: string;
           location: string;
@@ -21,7 +21,7 @@ export interface Database {
         };
         Insert: {
           id?: string;
-          title: string;
+          name: string;
           description: string;
           category: string;
           location: string;
@@ -30,7 +30,7 @@ export interface Database {
         };
         Update: {
           id?: string;
-          title?: string;
+          name?: string;
           description?: string;
           category?: string;
           location?: string;

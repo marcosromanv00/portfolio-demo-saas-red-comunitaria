@@ -90,7 +90,7 @@ export function ComplaintCard({ request, onClick }: ComplaintCardProps) {
           </span>
         </div>
         <CardTitle className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-1">
-          {request.title}
+          {request.name}
         </CardTitle>
       </CardHeader>
 

@@ -55,7 +55,7 @@ export default function NewRequestForm() {
     setLoading(true);
 
     const requestData: NewRequest = {
-      title: formData.name,
+      name: formData.name,
       description: formData.description,
       category: formData.category,
       location: formData.location,
@@ -117,12 +117,12 @@ export default function NewRequestForm() {
                 htmlFor="name"
                 className="group-focus-within:text-primary transition-colors"
               >
-                Título
+                Nombre
               </Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="Ej: Reparación del parque central"
+                placeholder="Ej: Francisca Carrasco"
                 value={formData.name}
                 onChange={handleChange}
                 required

@@ -12,11 +12,7 @@ import { TrashIcon } from "@/components/icons/TrashIcon";
 import type { Request } from "@/types/database.types";
 
 interface RequestCardProps {
-  request: Request & {
-    name?: string;
-    category?: string;
-    location?: string;
-  };
+  request: Request;
   onDelete: (id: string) => void;
 }
 
@@ -32,9 +28,7 @@ export default function RequestCard({ request, onDelete }: RequestCardProps) {
     >
       {/* Metadata */}
       <div>
-        <h2 className="text-lg font-semibold mb-1">
-          {request.name || request.title}
-        </h2>
+        <h2 className="text-lg font-semibold mb-1">{request.name}</h2>
 
         <p className="text-sm opacity-70 line-clamp-3">{request.description}</p>
 

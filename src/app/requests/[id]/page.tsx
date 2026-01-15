@@ -29,7 +29,7 @@ export async function generateMetadata(
   const { id } = await params;
   const { data: request } = await supabase
     .from("community_requests")
-    .select("title, description")
+    .select("name, description")
     .eq("id", id)
     .single();
 
@@ -40,10 +40,10 @@ export async function generateMetadata(
   }
 
   return {
-    title: `${request.title} | Red Comunitaria`,
+    title: `${request.name} | Red Comunitaria`,
     description: request.description.slice(0, 160),
     openGraph: {
-      title: request.title,
+      title: request.name,
       description: request.description.slice(0, 160),
       type: "article",
     },
@@ -114,7 +114,7 @@ export default async function RequestDetailPage({ params }: Props) {
                 </div>
               </div>
               <CardTitle className="text-2xl md:text-3xl font-bold leading-tight text-foreground font-heading tracking-tight">
-                {request.title}
+                {request.name}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6 pt-6">
