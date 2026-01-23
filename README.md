@@ -16,6 +16,23 @@ Una plataforma web moderna para la gestión y visualización de redes comunitari
 *   **Tipo Seguro**: Desarrollo 100% en **TypeScript** para minimizar errores en tiempo de ejecución.
 *   **Alto Rendimiento**: Aprovechando el Server-Side Rendering (SSR) y Static Site Generation (SSG) de **Next.js**.
 
+## 📸 Galería
+
+<!-- COMIENZO DE LA GALERÍA -->
+<!-- Instrucciones: Sube tus imágenes a una carpeta 'screenshots' o usa un host externo y reemplaza los links abajo -->
+
+<details>
+<summary>👀 Ver Capturas de Pantalla</summary>
+
+### Vista Principal
+![Dashboard Preview](https://via.placeholder.com/800x450?text=Dashboard+Principal)
+
+### Vista Detalle
+![Detail View](https://via.placeholder.com/800x450?text=Vista+de+Detalle)
+
+</details>
+<!-- FIN DE LA GALERÍA -->
+
 ## 🛠️ Stack Tecnológico
 
 *   **Frontend/Framework**: [Next.js](https://nextjs.org/) (App Router & Server Actions)
